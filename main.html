@@ -36,6 +36,41 @@
 
 <script>
 //Your code goes here 
+  
+const items = document.querySelector('.items');
+
+let isDown = false;
+let startX;
+let scrollLeft;
+
+items.addEventListener('mousedown', (e) => {
+  isDown = true;
+  items.classList.add('active');
+  startX = e.pageX - items.offsetLeft;
+  scrollLeft = items.scrollLeft;
+  console.log('mousedown', {startX, scrollLeft}); // Debugging
+});
+
+items.addEventListener('mouseleave', () => {
+  isDown = false;
+  items.classList.remove('active');
+});
+
+items.addEventListener('mouseup', () => {
+  isDown = false;
+  items.classList.remove('active');
+});
+
+items.addEventListener('mousemove', (e) => {
+  if (!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - items.offsetLeft;
+  const walk = (x - startX) * 3; // Scroll speed
+  items.scrollLeft = scrollLeft - walk;
+  console.log('mousemove', {x, walk, newScrollLeft: items.scrollLeft}); // Debugging
+});
+
+
 </script>
 
   </body>
