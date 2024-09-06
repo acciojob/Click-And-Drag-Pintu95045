@@ -1,27 +1,35 @@
-// Your code here.
- let isDragging = false;
-  let startX;
-  let scrollLeft;
+const itemsContainer = document.querySelector(".items");
+const items = document.querySelectorAll(".item");
 
-  function startDrag(event) {
-    isDragging = true;
-	  
-    startX = event.pageX - document.querySelector('.items').offsetLeft;
-    scrollLeft = document.querySelector('.items').scrollLeft;
-  }
+let isDragging = false;
+let startX;
+let scrollLeft;
 
-  function drag(event) {
-    if (!isDragging) return;
-    const x = event.pageX - document.querySelector('.items').offsetLeft;
-    const walk = (x - startX) * 2; // Adjust the multiplier for smoother/faster scrolling
-    document.querySelector('.items').scrollLeft = scrollLeft - walk;
-  }
+itemsContainer.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  startX = e.pageX - itemsContainer.offsetLeft;
+  scrollLeft = itemsContainer.scrollLeft;
+  itemsContainer.classList.add("active");
+});
 
-  function endDrag() {
-    isDragging = false;
-  }
+itemsContainer.addEventListener("mouseup", () => {
+  isDragging = false;
+  itemsContainer.classList.remove("active");
+});
 
-  function handleItemClick(item) {
-    // Handle click on each item if needed
-    console.log('Clicked on item:', item.textContent);
-  }
+itemsContainer.addEventListener("mouseleave", () => {
+  isDragging = false;
+  itemsContainer.classList.remove("active");
+});
+
+itemsContainer.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+  e.preventDefault();
+  const x = e.pageX - itemsContainer.offsetLeft;
+  const walk = (x - startX) * 2;
+  itemsContainer.scrollLeft = scrollLeft - walk;
+});
+
+itemsContainer.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+});
